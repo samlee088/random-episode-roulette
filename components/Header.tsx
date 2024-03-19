@@ -3,6 +3,7 @@
 import Link from "next/link";
 import DarkModeToggle from "./DarkModeToggle";
 import { Heart, Sparkles, Tv } from "lucide-react";
+import { SearchBar } from "./SearchBar";
 
 function Header() {
   return (
@@ -21,7 +22,9 @@ function Header() {
               <div>Popular Shows</div>
             </div>
           </Link>
-          <div>Search Bar</div>
+          <div className="flex w-full max-w-sm items-center space-x-2">
+            <SearchBar />
+          </div>
         </div>
         <div className="flex-1 flex items-center justify-end space-x-8">
           <Link href={"/favorites"} prefetch={false}>

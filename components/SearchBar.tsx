@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   searchInput: z.string().min(1, {
-    message: "Username must be at least 1 character.",
+    message: "Search must be at least 1 character.",
   }),
 });
 

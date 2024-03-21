@@ -1,5 +1,6 @@
 import { PopularShows } from "@/type";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function TVListDisplay({ shows }: { shows: PopularShows[] }) {
@@ -16,14 +17,18 @@ function TVListDisplay({ shows }: { shows: PopularShows[] }) {
       style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(min(400px, 100%), 1fr))",
+        alignItems: "start",
+        rowGap: "36px",
+        justifyItems: "center",
+        justifyContent: "center",
       }}
     >
       {shows.map((televisionShow) => (
-        <div
+        <Link
+          href={`/selectedShow/${televisionShow.id}`}
           key={televisionShow.id}
-          className="flex justify-center items-center text-center my-36 "
         >
-          <div className="flex flex-col">
+          <div className="flex flex-col  justify-center items-center text-center my-10">
             <Image
               className="w-fit lg:min-w-[400px] h-56 object-cover object-center shadow-md shadow-gray-900 drop-shadow-xl rounded-sm"
               src={getImagePath(
@@ -34,9 +39,10 @@ function TVListDisplay({ shows }: { shows: PopularShows[] }) {
               height={1080}
               key={televisionShow.id}
             />
-            <p>{televisionShow.name}</p>
+            <h1 className="my-10 font-black text-4xl">{televisionShow.name}</h1>
+            <p>{televisionShow.overview}</p>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

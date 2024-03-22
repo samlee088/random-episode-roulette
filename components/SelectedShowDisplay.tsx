@@ -50,11 +50,14 @@ const SelectedShowDisplay = ({ showData }: Props) => {
         <h1>Episode #</h1>
         <h1>{episodeSelection + 1}</h1>
         <h1>Episode Title: {currentSelectedEpisode?.episodeTitle}</h1>
+        <h1 className="max-w-[80%]">
+          {currentSelectedEpisode?.episodeOverview}
+        </h1>
       </div>
 
       <Button>Generate Random Episode</Button>
 
-      <h1 className="my-10 font-black text-4xl">Seasons</h1>
+      <h1 className="my-10 font-black text-2xl">Seasons</h1>
       <div className="flex ">
         {showData.map((data, i) => (
           <div key={i} className="mx-2">
@@ -68,7 +71,7 @@ const SelectedShowDisplay = ({ showData }: Props) => {
           </div>
         ))}
       </div>
-      <h1 className="my-10 font-black text-4xl">Episodes</h1>
+      <h1 className="my-10 font-black text-2xl">Episodes</h1>
       <div className="flex ">
         {showData[seasonSelection]?.map((data, i) => (
           <div key={i} className="mx-2">

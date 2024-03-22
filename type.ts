@@ -67,6 +67,16 @@ export type ShowSeasonData = {
   season_number: number;
   vote_average: number;
 };
+
+export type SelectedEpisode = {
+  episodeNumber: number;
+  episodeTitle: string;
+  episodeOverview: string;
+  status: boolean;
+  still_path: string;
+  episodeId: number;
+};
+
 /* 
 single episode data:
 

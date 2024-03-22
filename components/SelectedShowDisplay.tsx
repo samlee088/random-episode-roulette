@@ -3,25 +3,18 @@ import React, { useState } from "react";
 import { Button } from "./ui/button";
 import ImageDisplay from "./ImageDisplay";
 import DisplayButtons from "./DisplayButtons";
-
-type Episode = {
-  episodeNumber: number;
-  episodeTitle: string;
-  episodeOverview: string;
-  status: boolean;
-  still_path: string;
-  episodeId: number;
-};
+import DisplaySelectedEpisodeText from "./DisplaySelectedEpisodeText";
+import { SelectedEpisode } from "@/type";
 
 type Props = {
-  showData: (Episode[] | undefined)[];
+  showData: (SelectedEpisode[] | undefined)[];
 };
 const SelectedShowDisplay = ({ showData }: Props) => {
   const [seasonSelection, setSeasonSelection] = useState(0);
   const [episodeSelection, setEpisodeSelection] = useState(0);
 
   const [currentSelectedEpisode, setCurrentSelectedEpisode] = useState<
-    Episode | undefined
+    SelectedEpisode | undefined
   >(showData?.[seasonSelection]?.[episodeSelection]);
 
   const changeSeasonSelection = (newSeason: number) => () => {
@@ -44,16 +37,11 @@ const SelectedShowDisplay = ({ showData }: Props) => {
         source={currentSelectedEpisode?.still_path}
         name={currentSelectedEpisode?.episodeTitle}
       />
-      <div className="mt-6 flex justify-center items-center flex-col">
-        <h1>Season #</h1>
-        <h1>{seasonSelection + 1}</h1>
-        <h1>Episode #</h1>
-        <h1>{episodeSelection + 1}</h1>
-        <h1>Episode Title: {currentSelectedEpisode?.episodeTitle}</h1>
-        <h1 className="max-w-[80%]">
-          {currentSelectedEpisode?.episodeOverview}
-        </h1>
-      </div>
+      <DisplaySelectedEpisodeText
+        season={seasonSelection}
+        episode={episodeSelection}
+        data={currentSelectedEpisode}
+      />
 
       <Button>Generate Random Episode</Button>
 

@@ -34,7 +34,6 @@ export function SearchBar() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
     router.push(`/search/${data.searchInput}`);
     form.reset();
   }

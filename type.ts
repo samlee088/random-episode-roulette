@@ -22,10 +22,7 @@ export type SearchResults = {
   total_results: number;
 };
 
-
-export type SingleMovie = {
-  
-}
+export type SingleMovie = {};
 
 export type Episode = {
   air_date: string;
@@ -58,6 +55,17 @@ export type Episode = {
     order: number;
     profile_path: string | null;
   }[];
+};
+
+export type ShowSeasonData = {
+  air_date: string;
+  episode_count: number;
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  season_number: number;
+  vote_average: number;
 };
 /* 
 single episode data:

@@ -25,7 +25,17 @@ const SelectedShowDisplay = ({ showData }: Props) => {
   >(showData?.[seasonSelection]?.[episodeSelection]);
 
   const changeSeasonSelection = (newSeason: number) => () => {
-    setSeasonSelection(newSeason);
+    if (newSeason != seasonSelection) {
+      setSeasonSelection(newSeason);
+      setEpisodeSelection(0);
+      setCurrentSelectedEpisode(showData?.[newSeason]?.[0]);
+    }
+  };
+  const changeEpisodeSelection = (newEpisode: number) => () => {
+    if (newEpisode != episodeSelection) {
+      setEpisodeSelection(newEpisode);
+      setCurrentSelectedEpisode(showData?.[seasonSelection]?.[newEpisode]);
+    }
   };
 
   return (
@@ -34,8 +44,13 @@ const SelectedShowDisplay = ({ showData }: Props) => {
         source={currentSelectedEpisode?.still_path}
         name={currentSelectedEpisode?.episodeTitle}
       />
-      <h1>Season #</h1>
-      <h1>Episode #</h1>
+      <div className="mt-6 flex justify-center items-center flex-col">
+        <h1>Season #</h1>
+        <h1>{seasonSelection + 1}</h1>
+        <h1>Episode #</h1>
+        <h1>{episodeSelection + 1}</h1>
+        <h1>Episode Title: {currentSelectedEpisode?.episodeTitle}</h1>
+      </div>
 
       <Button>Generate Random Episode</Button>
 
@@ -57,7 +72,11 @@ const SelectedShowDisplay = ({ showData }: Props) => {
       <div className="flex ">
         {showData[seasonSelection]?.map((data, i) => (
           <div key={i} className="mx-2">
-            <Button key={i} variant="secondary">
+            <Button
+              key={i}
+              variant={i === episodeSelection ? "selected" : "secondary"}
+              onClick={changeEpisodeSelection(i)}
+            >
               {i + 1}
             </Button>
           </div>

@@ -54,15 +54,19 @@ async function fetchSeasonData(series_id: number, season_number: number) {
   }
 
   const seasonDataExtract: {
+    episodeId: number;
     episodeNumber: number;
     episodeTitle: string;
     episodeOverview: string;
     status: boolean;
+    still_path: string;
   }[] = data.episodes.map((episode: Episode) => {
     return {
+      episodeId: episode.id,
       episodeNumber: episode.episode_number,
       episodeTitle: episode.name,
       episodeOverview: episode.overview,
+      still_path: episode.still_path,
       status: true,
     };
   });

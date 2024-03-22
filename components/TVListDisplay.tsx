@@ -2,6 +2,7 @@ import { PopularShows } from "@/type";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import ImageDisplay from "./ImageDisplay";
 
 function TVListDisplay({ shows }: { shows: PopularShows[] }) {
   const getImagePath = (imagePath?: string, fullSize?: boolean) => {
@@ -29,15 +30,12 @@ function TVListDisplay({ shows }: { shows: PopularShows[] }) {
           key={televisionShow.id}
         >
           <div className="flex flex-col  justify-center items-center text-center my-10">
-            <Image
-              className="w-fit lg:min-w-[400px] h-56 object-cover object-center shadow-md shadow-gray-900 drop-shadow-xl rounded-sm"
-              src={getImagePath(
+            <ImageDisplay
+              source={
                 televisionShow.backdrop_path || televisionShow.poster_path
-              )}
-              alt={televisionShow.name}
-              width={1920}
-              height={1080}
-              key={televisionShow.id}
+              }
+              name={televisionShow.name}
+              id={televisionShow.id}
             />
             <h1 className="my-10 font-black text-4xl">{televisionShow.name}</h1>
             <p>{televisionShow.overview}</p>

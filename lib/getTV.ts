@@ -57,11 +57,13 @@ async function fetchSeasonData(series_id: number, season_number: number) {
     episodeNumber: number;
     episodeTitle: string;
     episodeOverview: string;
+    status: boolean;
   }[] = data.episodes.map((episode: Episode) => {
     return {
       episodeNumber: episode.episode_number,
       episodeTitle: episode.name,
       episodeOverview: episode.overview,
+      status: true,
     };
   });
 

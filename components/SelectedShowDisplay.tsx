@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import ImageDisplay from "./ImageDisplay";
 import DisplaySelectedEpisodeText from "./DisplaySelectedEpisodeText";
 import { SelectedEpisode } from "@/type";
+import SelectAllButton from "./SelectAllButton";
 
 type Props = {
   showDataParent: (SelectedEpisode[] | undefined)[];
@@ -16,6 +17,8 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
   const [currentSelectedEpisode, setCurrentSelectedEpisode] = useState<
     SelectedEpisode | undefined
   >(showData?.[seasonSelection]?.[episodeSelection]);
+  const [state, updateState] = React.useState({});
+  const forceUpdate = React.useCallback(() => updateState({}), []);
 
   const changeSeasonSelection = (newSeason: number) => () => {
     if (newSeason != seasonSelection) {
@@ -30,8 +33,6 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
       setCurrentSelectedEpisode(showData?.[seasonSelection]?.[newEpisode]);
     }
   };
-  const [state, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
 
   const selectStatusChange = (episodeNumber: number) => () => {
     const episode = showData?.[seasonSelection]?.[episodeNumber];
@@ -70,7 +71,23 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
           </div>
         ))}
       </div>
-      <h1 className="my-10 font-black text-2xl">Episodes</h1>
+      <h1 className="mt-10 font-black text-2xl">Episodes</h1>
+      <div className="my-5">
+        <SelectAllButton
+          name="Select All"
+          seasonSelection={seasonSelection}
+          selectOrDeselect={true}
+          showData={showData}
+          setShowData={setShowData}
+        />
+        <SelectAllButton
+          name="Deselect All"
+          seasonSelection={seasonSelection}
+          selectOrDeselect={false}
+          showData={showData}
+          setShowData={setShowData}
+        />
+      </div>
       <div
         className="flex max-w-[80%] "
         style={{
@@ -94,8 +111,8 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
             <Button
               variant={
                 showData?.[seasonSelection]?.[i].status
-                  ? "secondary"
-                  : "selected"
+                  ? "selected"
+                  : "secondary"
               }
               onClick={selectStatusChange(i)}
             >

@@ -1,17 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import ImageDisplay from "./ImageDisplay";
-import DisplayButtons from "./DisplayButtons";
 import DisplaySelectedEpisodeText from "./DisplaySelectedEpisodeText";
 import { SelectedEpisode } from "@/type";
 
 type Props = {
-  showData: (SelectedEpisode[] | undefined)[];
+  showDataParent: (SelectedEpisode[] | undefined)[];
 };
-const SelectedShowDisplay = ({ showData }: Props) => {
+const SelectedShowDisplay = ({ showDataParent }: Props) => {
   const [seasonSelection, setSeasonSelection] = useState(0);
   const [episodeSelection, setEpisodeSelection] = useState(0);
+  const [showData, setShowData] = useState(showDataParent);
 
   const [currentSelectedEpisode, setCurrentSelectedEpisode] = useState<
     SelectedEpisode | undefined
@@ -29,6 +29,17 @@ const SelectedShowDisplay = ({ showData }: Props) => {
       setEpisodeSelection(newEpisode);
       setCurrentSelectedEpisode(showData?.[seasonSelection]?.[newEpisode]);
     }
+  };
+  const [state, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+
+  const selectStatusChange = (episodeNumber: number) => () => {
+    const episode = showData?.[seasonSelection]?.[episodeNumber];
+    if (episode) {
+      episode.status = !episode.status;
+      setShowData(showData);
+    }
+    forceUpdate();
   };
 
   return (
@@ -60,15 +71,35 @@ const SelectedShowDisplay = ({ showData }: Props) => {
         ))}
       </div>
       <h1 className="my-10 font-black text-2xl">Episodes</h1>
-      <div className="flex ">
+      <div
+        className="flex max-w-[80%] "
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(70px, 100%), 1fr))",
+          rowGap: "36px",
+          justifyItems: "center",
+          justifyContent: "center",
+        }}
+      >
         {showData[seasonSelection]?.map((data, i) => (
-          <div key={i} className="mx-2">
+          <div key={i} className="mx-4 flex flex-col mb-6">
             <Button
               key={i}
               variant={i === episodeSelection ? "selected" : "secondary"}
               onClick={changeEpisodeSelection(i)}
+              className="mb-4"
             >
               {i + 1}
+            </Button>
+            <Button
+              variant={
+                showData?.[seasonSelection]?.[i].status
+                  ? "secondary"
+                  : "selected"
+              }
+              onClick={selectStatusChange(i)}
+            >
+              Y
             </Button>
           </div>
         ))}

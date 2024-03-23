@@ -16,7 +16,7 @@ async function selectedShow({ params: { showId } }: Props) {
 
   return (
     <div>
-      <SelectedShowDisplay showData={singleShowSeasonsEpisodesData} />
+      <SelectedShowDisplay showDataParent={singleShowSeasonsEpisodesData} />
     </div>
   );
 }

@@ -118,13 +118,14 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
       <div className="my-5">
         <SelectAllButtonSeasons
           name="Select All"
+          seasonSelection={seasonSelection}
           selectOrDeselect={true}
           showData={showData}
           setShowData={setShowData}
         />
         <SelectAllButtonSeasons
           name="Deselect All"
-          
+          seasonSelection={seasonSelection}
           selectOrDeselect={false}
           showData={showData}
           setShowData={setShowData}

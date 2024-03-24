@@ -5,13 +5,13 @@ import { SelectedEpisode } from "@/type";
 
 const SelectAllButtonSeasons = ({
   name,
- 
+  seasonSelection,
   selectOrDeselect,
   setShowData,
   showData,
 }: {
   name: string;
-  
+  seasonSelection: number;
   selectOrDeselect: boolean;
   showData: {
     seasonName: string;

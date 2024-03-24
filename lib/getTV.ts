@@ -54,7 +54,7 @@ async function fetchSeasonData(series_id: number, season_number: number) {
   );
 
   const data = await fetchFromTMDBSingleSeason(url);
-  console.log(data);
+
   if (!data.episodes) {
     return;
   }

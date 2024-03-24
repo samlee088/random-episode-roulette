@@ -19,7 +19,16 @@ async function SearchPage({ params: { searchId } }: Props) {
 
   return (
     <div>
-      <TVListDisplay shows={televisionShows} />
+      {!televisionShows.length ? (
+        <div className="flex justify-center items-center my-64">
+          <h1>
+            No results found for that search term. Please try again with a
+            different search.
+          </h1>
+        </div>
+      ) : (
+        <TVListDisplay shows={televisionShows} />
+      )}
     </div>
   );
 }

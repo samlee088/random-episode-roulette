@@ -4,11 +4,12 @@ import { Button } from "./ui/button";
 import ImageDisplay from "./ImageDisplay";
 import DisplaySelectedEpisodeText from "./DisplaySelectedEpisodeText";
 import { SelectedEpisode } from "@/type";
-import SelectAllButton from "./SelectAllButton";
+import SelectAllButtonEpisodes from "./SelectAllButtonEpisodes";
 import generateRandomEpisode from "@/lib/functions";
 
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
+import SelectAllButtonSeasons from "./SelectAllSeasons";
 
 type Props = {
   showDataParent: {
@@ -34,14 +35,16 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
   useEffect(() => {
-    toast({
-      variant: "destructive",
-      title: "No Season and No Episode Available",
-      description:
-        "Please go back and select at least one episode for random episode generator",
-      action: <ToastAction altText="Go Back">Close</ToastAction>,
-      className: "bg-red-800",
-    });
+    if (showDestructiveToast) {
+      toast({
+        variant: "destructive",
+        title: "No Season and No Episode Available",
+        description:
+          "Please go back and select at least one episode for random episode generator",
+        action: <ToastAction altText="Go Back">Close</ToastAction>,
+        className: "bg-red-800",
+      });
+    }
 
     setShowDestructiveToast(false);
   }, [showDestructiveToast]);
@@ -112,6 +115,21 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
       />
 
       <h1 className="my-10 font-black text-2xl">Seasons</h1>
+      <div className="my-5">
+        <SelectAllButtonSeasons
+          name="Select All"
+          selectOrDeselect={true}
+          showData={showData}
+          setShowData={setShowData}
+        />
+        <SelectAllButtonSeasons
+          name="Deselect All"
+          
+          selectOrDeselect={false}
+          showData={showData}
+          setShowData={setShowData}
+        />
+      </div>
       <div className="flex ">
         {showData.map((data, i) => (
           <div key={i} className="mx-2">
@@ -127,14 +145,14 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
       </div>
       <h1 className="mt-10 font-black text-2xl">Episodes</h1>
       <div className="my-5">
-        <SelectAllButton
+        <SelectAllButtonEpisodes
           name="Select All"
           seasonSelection={seasonSelection}
           selectOrDeselect={true}
           showData={showData}
           setShowData={setShowData}
         />
-        <SelectAllButton
+        <SelectAllButtonEpisodes
           name="Deselect All"
           seasonSelection={seasonSelection}
           selectOrDeselect={false}

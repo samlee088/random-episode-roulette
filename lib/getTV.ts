@@ -111,3 +111,12 @@ export async function getSingleTVShowData({
 
   return responses;
 }
+
+export async function getSearchedMovies(searchInput: string) {
+  const url = new URL("https://api.themoviedb.org/3/search/tv");
+
+  url.searchParams.set("query", searchInput);
+
+  const data = await fetchFromTMDBMultiple(url);
+  return data.results;
+}

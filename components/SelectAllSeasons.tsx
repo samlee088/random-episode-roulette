@@ -3,15 +3,15 @@ import React, { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 import { SelectedEpisode } from "@/type";
 
-const SelectAllButton = ({
+const SelectAllButtonSeasons = ({
   name,
-  seasonSelection,
+ 
   selectOrDeselect,
   setShowData,
   showData,
 }: {
   name: string;
-  seasonSelection: number;
+  
   selectOrDeselect: boolean;
   showData: {
     seasonName: string;
@@ -68,4 +68,4 @@ const SelectAllButton = ({
   );
 };
 
-export default SelectAllButton;
+export default SelectAllButtonSeasons;

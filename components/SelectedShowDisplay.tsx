@@ -63,11 +63,15 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
       seasonSelection
     ].seasonEpisodes.every((episode) => episode.status === false);
 
+    let updated = [...seasonPool];
+
     if (noEpisodeInSeasonSelected) {
-      seasonPool[seasonSelection] = false;
+      updated[seasonSelection] = false;
     } else {
-      seasonPool[seasonSelection] = true;
+      updated[seasonSelection] = true;
     }
+    setSeasonPool([...updated]);
+
     forceUpdate();
   };
 
@@ -139,6 +143,8 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
           selectOrDeselect={true}
           showData={showData}
           setShowData={setShowData}
+          seasonPool={seasonPool}
+          setSeasonPool={setSeasonPool}
         />
         <SelectAllButton
           name="Deselect All"
@@ -146,6 +152,8 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
           selectOrDeselect={false}
           showData={showData}
           setShowData={setShowData}
+          seasonPool={seasonPool}
+          setSeasonPool={setSeasonPool}
         />
       </div>
       <div

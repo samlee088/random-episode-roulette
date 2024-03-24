@@ -9,6 +9,8 @@ const SelectAllButton = ({
   selectOrDeselect,
   setShowData,
   showData,
+  seasonPool,
+  setSeasonPool,
 }: {
   name: string;
   seasonSelection: number;
@@ -28,9 +30,12 @@ const SelectAllButton = ({
     >
   >;
   /* selectOrDeselect: true, select all episodes for currently selected season, false deselect all episode for currently selected episode */
+  seasonPool: boolean[];
+  setSeasonPool: Dispatch<SetStateAction<boolean[]>>;
 }) => {
   function selectDeselectAllEpisodes() {
     let output;
+    let updateSeasonStatus = [...seasonPool];
 
     if (selectOrDeselect) {
       output = showData[seasonSelection]?.seasonEpisodes?.map((episode) => {
@@ -39,6 +44,7 @@ const SelectAllButton = ({
           status: true,
         };
       });
+      updateSeasonStatus[seasonSelection] = true;
     } else {
       output = showData[seasonSelection]?.seasonEpisodes?.map((episode) => {
         return {
@@ -46,7 +52,10 @@ const SelectAllButton = ({
           status: false,
         };
       });
+
+      updateSeasonStatus[seasonSelection] = false;
     }
+    setSeasonPool([...updateSeasonStatus]);
     if (output) {
       let updatedShowData = [...showData];
       updatedShowData[seasonSelection].seasonEpisodes = output;

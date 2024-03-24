@@ -5,6 +5,10 @@ import ImageDisplay from "./ImageDisplay";
 import DisplaySelectedEpisodeText from "./DisplaySelectedEpisodeText";
 import { SelectedEpisode } from "@/type";
 import SelectAllButton from "./SelectAllButton";
+import generateRandomEpisode from "@/lib/functions";
+
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 
 type Props = {
   showDataParent: {
@@ -18,16 +22,10 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
   const [seasonSelection, setSeasonSelection] = useState(0);
   const [episodeSelection, setEpisodeSelection] = useState(0);
   const [showData, setShowData] = useState(showDataParent);
-  const [seasonPool, setSeasonPool] = useState(
-    new Array(showData.length).fill(true)
-  );
-  const [episodePool, setEpisodePool] = useState(
-    new Array(1).fill(
-      showData.map(
-        (season) => new Array(season.seasonEpisodes.map((data, i) => i))
-      )
-    )
-  );
+
+  const { toast } = useToast();
+  const [showDestructiveToast, setShowDestructiveToast] = useState(false);
+
   const [currentSelectedEpisode, setCurrentSelectedEpisode] = useState<
     SelectedEpisode | undefined
   >(showData?.[seasonSelection]?.seasonEpisodes?.[episodeSelection]);
@@ -35,6 +33,18 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
   const [state, updateState] = React.useState({});
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
+  useEffect(() => {
+    toast({
+      variant: "destructive",
+      title: "No Season and No Episode Available",
+      description:
+        "Please go back and select at least one episode for random episode generator",
+      action: <ToastAction altText="Go Back">Close</ToastAction>,
+      className: "bg-red-800",
+    });
+
+    setShowDestructiveToast(false);
+  }, [showDestructiveToast]);
   const changeSeasonSelection = (newSeason: number) => () => {
     if (newSeason != seasonSelection) {
       setSeasonSelection(newSeason);
@@ -63,43 +73,13 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
       seasonSelection
     ].seasonEpisodes.every((episode) => episode.status === false);
 
-    let updated = [...seasonPool];
-
     if (noEpisodeInSeasonSelected) {
-      updated[seasonSelection] = false;
+      showData[seasonSelection].seasonStatus = false;
     } else {
-      updated[seasonSelection] = true;
+      showData[seasonSelection].seasonStatus = true;
     }
-    setSeasonPool([...updated]);
 
     forceUpdate();
-  };
-
-  const generateRandomEpisode = () => {
-    let seasonDrawPool = [];
-
-    for (let i = 0; i < seasonPool.length; i++) {
-      if (seasonPool[i]) {
-        seasonDrawPool.push(i);
-      }
-    }
-    let randomSeason =
-      seasonDrawPool[Math.floor(seasonDrawPool.length * Math.random())];
-    setSeasonSelection(randomSeason);
-
-    let episodeDrawPool = [];
-    for (let i = 0; i < showData[randomSeason].seasonEpisodes.length; i++) {
-      if (showData[randomSeason].seasonEpisodes[i].status === true) {
-        episodeDrawPool.push(i);
-      }
-    }
-
-    let randomEpisode =
-      episodeDrawPool[Math.floor(episodeDrawPool.length * Math.random())];
-    setEpisodeSelection(randomEpisode);
-    setCurrentSelectedEpisode(
-      showData?.[seasonSelection]?.seasonEpisodes?.[episodeSelection]
-    );
   };
 
   return (
@@ -109,7 +89,17 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
         name={currentSelectedEpisode?.episodeTitle}
       />
       <Button
-        onClick={generateRandomEpisode}
+        onClick={() =>
+          generateRandomEpisode({
+            showData: showData,
+            setSeasonSelection: setSeasonSelection,
+            setEpisodeSelection: setEpisodeSelection,
+            setCurrentSelectedEpisode: setCurrentSelectedEpisode,
+            seasonSelection: seasonSelection,
+            episodeSelection: episodeSelection,
+            setShowDestructiveToast: setShowDestructiveToast,
+          })
+        }
         variant="selected"
         className="mt-10"
       >
@@ -143,8 +133,6 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
           selectOrDeselect={true}
           showData={showData}
           setShowData={setShowData}
-          seasonPool={seasonPool}
-          setSeasonPool={setSeasonPool}
         />
         <SelectAllButton
           name="Deselect All"
@@ -152,8 +140,6 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
           selectOrDeselect={false}
           showData={showData}
           setShowData={setShowData}
-          seasonPool={seasonPool}
-          setSeasonPool={setSeasonPool}
         />
       </div>
       <div

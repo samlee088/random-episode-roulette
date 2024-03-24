@@ -7,17 +7,22 @@ import { SelectedEpisode } from "@/type";
 import SelectAllButton from "./SelectAllButton";
 
 type Props = {
-  showDataParent: ({
+  showDataParent: {
     seasonName: string;
     seasonEpisodes: SelectedEpisode[];
-  })[];
+  }[];
 };
 
 const SelectedShowDisplay = ({ showDataParent }: Props) => {
   const [seasonSelection, setSeasonSelection] = useState(0);
   const [episodeSelection, setEpisodeSelection] = useState(0);
   const [showData, setShowData] = useState(showDataParent);
-
+  const [seasonPool, setSeasonPool] = useState(
+    new Array(showData.length).fill(true)
+  );
+  const [episodePool, setEpisodePool] = useState(
+    new Array(showData.length).fill([])
+  );
   const [currentSelectedEpisode, setCurrentSelectedEpisode] = useState<
     SelectedEpisode | undefined
   >(showData?.[seasonSelection]?.seasonEpisodes?.[episodeSelection]);
@@ -51,6 +56,29 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
     forceUpdate();
   };
 
+  const generateRandomEpisode = () => {
+    let seasonDraw = [];
+    for (let i = 0; i < seasonPool.length; i++) {
+      if (seasonPool[i]) {
+        seasonDraw.push(i);
+      }
+    }
+    let randomSeason =
+      seasonDraw[Math.floor(seasonDraw.length * Math.random())];
+    setSeasonSelection(randomSeason);
+
+    let episodeDrawPool = [];
+    for (let i = 0; i < showData[randomSeason].seasonEpisodes.length; i++) {
+      if (showData[randomSeason].seasonEpisodes[i].status === true) {
+        episodeDrawPool.push(i);
+      }
+    }
+    console.log(episodeDrawPool);
+    let randomEpisode =
+      episodeDrawPool[Math.floor(episodeDrawPool.length * Math.random())];
+    setEpisodeSelection(randomEpisode);
+  };
+
   return (
     <div className="flex justify-center items-center flex-col mt-12">
       <ImageDisplay
@@ -63,7 +91,9 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
         data={currentSelectedEpisode}
       />
 
-      <Button>Generate Random Episode</Button>
+      <Button onClick={generateRandomEpisode} variant="selected">
+        Generate Random Episode
+      </Button>
 
       <h1 className="my-10 font-black text-2xl">Seasons</h1>
       <div className="flex ">

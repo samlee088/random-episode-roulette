@@ -77,8 +77,11 @@ async function fetchSeasonData(series_id: number, season_number: number) {
     };
   });
 
-  // return seasonDataExtract;
-  return { seasonName: data.name, seasonEpisodes: seasonDataExtract };
+  return {
+    seasonName: data.name,
+    seasonEpisodes: seasonDataExtract,
+    seasonStatus: true,
+  };
 }
 
 export async function getSingleTVShowData({

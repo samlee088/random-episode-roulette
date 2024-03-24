@@ -16,12 +16,14 @@ const SelectAllButton = ({
   showData: {
     seasonName: string;
     seasonEpisodes: SelectedEpisode[];
+    seasonStatus: boolean;
   }[];
   setShowData: Dispatch<
     SetStateAction<
       {
         seasonName: string;
         seasonEpisodes: SelectedEpisode[];
+        seasonStatus: boolean;
       }[]
     >
   >;

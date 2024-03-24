@@ -77,7 +77,6 @@ export type SelectedEpisode = {
   episodeId: number;
 };
 
-
 export type TVShowSeasonData = {
   seasonName: string;
   seasonEpisodes: {
@@ -88,4 +87,5 @@ export type TVShowSeasonData = {
     status: boolean;
     still_path: string;
   }[];
-}
+  seasonStatus: boolean;
+};

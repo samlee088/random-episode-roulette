@@ -10,6 +10,7 @@ type Props = {
   showDataParent: {
     seasonName: string;
     seasonEpisodes: SelectedEpisode[];
+    seasonStatus: boolean;
   }[];
 };
 
@@ -21,7 +22,11 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
     new Array(showData.length).fill(true)
   );
   const [episodePool, setEpisodePool] = useState(
-    new Array(showData.length).fill([])
+    new Array(1).fill(
+      showData.map(
+        (season) => new Array(season.seasonEpisodes.map((data, i) => i))
+      )
+    )
   );
   const [currentSelectedEpisode, setCurrentSelectedEpisode] = useState<
     SelectedEpisode | undefined
@@ -53,18 +58,29 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
       episode.status = !episode.status;
       setShowData(showData);
     }
+
+    const noEpisodeInSeasonSelected = showData[
+      seasonSelection
+    ].seasonEpisodes.every((episode) => episode.status === false);
+
+    if (noEpisodeInSeasonSelected) {
+      seasonPool[seasonSelection] = false;
+    } else {
+      seasonPool[seasonSelection] = true;
+    }
     forceUpdate();
   };
 
   const generateRandomEpisode = () => {
-    let seasonDraw = [];
+    let seasonDrawPool = [];
+
     for (let i = 0; i < seasonPool.length; i++) {
       if (seasonPool[i]) {
-        seasonDraw.push(i);
+        seasonDrawPool.push(i);
       }
     }
     let randomSeason =
-      seasonDraw[Math.floor(seasonDraw.length * Math.random())];
+      seasonDrawPool[Math.floor(seasonDrawPool.length * Math.random())];
     setSeasonSelection(randomSeason);
 
     let episodeDrawPool = [];
@@ -73,10 +89,13 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
         episodeDrawPool.push(i);
       }
     }
-    console.log(episodeDrawPool);
+
     let randomEpisode =
       episodeDrawPool[Math.floor(episodeDrawPool.length * Math.random())];
     setEpisodeSelection(randomEpisode);
+    setCurrentSelectedEpisode(
+      showData?.[seasonSelection]?.seasonEpisodes?.[episodeSelection]
+    );
   };
 
   return (
@@ -85,15 +104,18 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
         source={currentSelectedEpisode?.still_path}
         name={currentSelectedEpisode?.episodeTitle}
       />
+      <Button
+        onClick={generateRandomEpisode}
+        variant="selected"
+        className="mt-10"
+      >
+        Generate Random Episode
+      </Button>
       <DisplaySelectedEpisodeText
-        season={seasonSelection}
+        season={showData[seasonSelection].seasonName}
         episode={episodeSelection}
         data={currentSelectedEpisode}
       />
-
-      <Button onClick={generateRandomEpisode} variant="selected">
-        Generate Random Episode
-      </Button>
 
       <h1 className="my-10 font-black text-2xl">Seasons</h1>
       <div className="flex ">

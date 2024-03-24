@@ -1,4 +1,10 @@
-import { Episode, SearchResults, ShowSeasonData, SingleMovie } from "@/type";
+import {
+  Episode,
+  SearchResults,
+  ShowSeasonData,
+  SingleMovie,
+  TVShowSeasonData,
+} from "@/type";
 
 async function fetchFromTMDBMultiple(url: URL, cacheTime?: number) {
   // url.searchParams.set("page", "1");
@@ -48,7 +54,7 @@ async function fetchSeasonData(series_id: number, season_number: number) {
   );
 
   const data = await fetchFromTMDBSingleSeason(url);
-
+  console.log(data);
   if (!data.episodes) {
     return;
   }
@@ -71,7 +77,8 @@ async function fetchSeasonData(series_id: number, season_number: number) {
     };
   });
 
-  return seasonDataExtract;
+  // return seasonDataExtract;
+  return { seasonName: data.name, seasonEpisodes: seasonDataExtract };
 }
 
 export async function getSingleTVShowData({
@@ -83,17 +90,21 @@ export async function getSingleTVShowData({
     new URL(`https://api.themoviedb.org/3/tv/${series_id}`)
   );
 
-  let requests = [];
-
   let seasonsRequest = data.seasons.map((season: ShowSeasonData) => {
     return season.season_number;
   });
+
+  let requests = [];
 
   for (let i = 0; i < seasonsRequest.length; i++) {
     requests.push(fetchSeasonData(series_id, seasonsRequest[i]));
   }
 
-  let responses = await Promise.all(requests);
+  let responses = (await Promise.all(requests)) as TVShowSeasonData[];
+
+  if (responses.length === 0) {
+    throw new Error("No season data found");
+  }
 
   return responses;
 }

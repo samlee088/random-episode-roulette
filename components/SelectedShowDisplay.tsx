@@ -7,8 +7,12 @@ import { SelectedEpisode } from "@/type";
 import SelectAllButton from "./SelectAllButton";
 
 type Props = {
-  showDataParent: (SelectedEpisode[] | undefined)[];
+  showDataParent: ({
+    seasonName: string;
+    seasonEpisodes: SelectedEpisode[];
+  })[];
 };
+
 const SelectedShowDisplay = ({ showDataParent }: Props) => {
   const [seasonSelection, setSeasonSelection] = useState(0);
   const [episodeSelection, setEpisodeSelection] = useState(0);
@@ -16,7 +20,8 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
 
   const [currentSelectedEpisode, setCurrentSelectedEpisode] = useState<
     SelectedEpisode | undefined
-  >(showData?.[seasonSelection]?.[episodeSelection]);
+  >(showData?.[seasonSelection]?.seasonEpisodes?.[episodeSelection]);
+
   const [state, updateState] = React.useState({});
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
@@ -24,18 +29,21 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
     if (newSeason != seasonSelection) {
       setSeasonSelection(newSeason);
       setEpisodeSelection(0);
-      setCurrentSelectedEpisode(showData?.[newSeason]?.[0]);
+      setCurrentSelectedEpisode(showData?.[newSeason]?.seasonEpisodes?.[0]);
     }
   };
   const changeEpisodeSelection = (newEpisode: number) => () => {
     if (newEpisode != episodeSelection) {
       setEpisodeSelection(newEpisode);
-      setCurrentSelectedEpisode(showData?.[seasonSelection]?.[newEpisode]);
+      setCurrentSelectedEpisode(
+        showData?.[seasonSelection]?.seasonEpisodes?.[newEpisode]
+      );
     }
   };
 
   const selectStatusChange = (episodeNumber: number) => () => {
-    const episode = showData?.[seasonSelection]?.[episodeNumber];
+    const episode =
+      showData?.[seasonSelection]?.seasonEpisodes?.[episodeNumber];
     if (episode) {
       episode.status = !episode.status;
       setShowData(showData);
@@ -66,7 +74,7 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
               variant={i === seasonSelection ? "selected" : "secondary"}
               onClick={changeSeasonSelection(i)}
             >
-              {i + 1}
+              {data?.seasonName}
             </Button>
           </div>
         ))}
@@ -98,7 +106,7 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
           justifyContent: "center",
         }}
       >
-        {showData[seasonSelection]?.map((data, i) => (
+        {showData[seasonSelection]?.seasonEpisodes?.map((data, i) => (
           <div key={i} className="mx-4 flex flex-col mb-6">
             <Button
               key={i}
@@ -110,7 +118,7 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
             </Button>
             <Button
               variant={
-                showData?.[seasonSelection]?.[i].status
+                showData?.[seasonSelection]?.seasonEpisodes?.[i].status
                   ? "selected"
                   : "secondary"
               }

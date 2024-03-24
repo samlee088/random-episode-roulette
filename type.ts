@@ -77,23 +77,15 @@ export type SelectedEpisode = {
   episodeId: number;
 };
 
-/* 
-single episode data:
 
-
- air_date: '2023-05-08',
-      episode_number: 84,
-      episode_type: 'standard',
-      id: 4424383,
-      name: 'Molly Shannon, Helene Yorke, and Drew Tarver',
-      overview: 'Molly Shannon, Drew Tarver & Helene Yorke join host Andy Cohen.',
-      production_code: '',
-      runtime: 22,
-      season_number: 20,
-      show_id: 22980,
-      still_path: '/rURwiGmqBSc0LDtWrnFgjF5MgUM.jpg',
-      vote_average: 0,
-      vote_count: 0,
-      crew: [],
-      guest_stars: [Array]
-       */
+export type TVShowSeasonData = {
+  seasonName: string;
+  seasonEpisodes: {
+    episodeId: number;
+    episodeNumber: number;
+    episodeTitle: string;
+    episodeOverview: string;
+    status: boolean;
+    still_path: string;
+  }[];
+}

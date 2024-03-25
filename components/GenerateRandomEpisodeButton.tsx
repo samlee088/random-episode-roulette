@@ -9,10 +9,7 @@ import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 
 const GenerateRandomEpisodeButton = () => {
-  const [showData, setShowData] = useShowDataStore((state) => [
-    state.showData,
-    state.setShowData,
-  ]);
+  const [showData] = useShowDataStore((state) => [state.showData]);
   const [seasonSelection, setSeasonSelection] = useSeasonStore((state) => [
     state.seasonSelection,
     state.setSeasonSelection,
@@ -64,9 +61,6 @@ const GenerateRandomEpisodeButton = () => {
     let randomEpisode =
       episodeDrawPool[Math.floor(episodeDrawPool.length * Math.random())];
     setEpisodeSelection(randomEpisode);
-    // setCurrentSelectedEpisode(
-    //   showData?.[seasonSelection]?.seasonEpisodes?.[episodeSelection]
-    // );
   }
 
   return (

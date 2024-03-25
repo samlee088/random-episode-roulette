@@ -5,7 +5,6 @@ import ImageDisplay from "./ImageDisplay";
 import DisplaySelectedEpisodeText from "./DisplaySelectedEpisodeText";
 import { SelectedEpisode } from "@/type";
 import SelectAllButtonEpisodes from "./SelectAllButtonEpisodes";
-
 import SelectAllButtonSeasons from "./SelectAllSeasons";
 import {
   useEpisodeStore,
@@ -27,12 +26,10 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
     state.showData,
     state.setShowData,
   ]);
-
   const [seasonSelection, setSeasonSelection] = useSeasonStore((state) => [
     state.seasonSelection,
     state.setSeasonSelection,
   ]);
-
   const [episodeSelection, setEpisodeSelection] = useEpisodeStore((state) => [
     state.episodeSelection,
     state.setEpisodeSelection,
@@ -40,11 +37,9 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
 
   useEffect(() => {
     setShowData(showDataParent);
+    setSeasonSelection(0);
+    setEpisodeSelection(0);
   }, [showDataParent]);
-
-  const [currentSelectedEpisode, setCurrentSelectedEpisode] = useState<
-    SelectedEpisode | undefined
-  >(showData?.[seasonSelection]?.seasonEpisodes?.[episodeSelection]);
 
   const [state, updateState] = React.useState({});
   const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -53,16 +48,14 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
     if (newSeason != seasonSelection) {
       setSeasonSelection(newSeason);
       setEpisodeSelection(0);
-      setCurrentSelectedEpisode(showData?.[newSeason]?.seasonEpisodes?.[0]);
     }
+    forceUpdate();
   };
   const changeEpisodeSelection = (newEpisode: number) => () => {
     if (newEpisode != episodeSelection) {
       setEpisodeSelection(newEpisode);
-      setCurrentSelectedEpisode(
-        showData?.[seasonSelection]?.seasonEpisodes?.[newEpisode]
-      );
     }
+    forceUpdate();
   };
 
   const selectStatusChange = (episodeNumber: number) => () => {
@@ -89,8 +82,14 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
   return (
     <div className="flex justify-center items-center flex-col mt-12">
       <ImageDisplay
-        source={currentSelectedEpisode?.still_path}
-        name={currentSelectedEpisode?.episodeTitle}
+        source={
+          showData?.[seasonSelection]?.seasonEpisodes?.[episodeSelection]
+            ?.still_path
+        }
+        name={
+          showData?.[seasonSelection]?.seasonEpisodes?.[episodeSelection]
+            ?.episodeTitle
+        }
       />
       <GenerateRandomEpisodeButton />
       <DisplaySelectedEpisodeText />
@@ -123,7 +122,7 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
             </Button>
             <Button
               variant={
-                showData?.[seasonSelection]?.seasonEpisodes?.[i].status
+                showData?.[seasonSelection]?.seasonEpisodes?.[i]?.status
                   ? "selected"
                   : "secondary"
               }

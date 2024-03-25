@@ -1,34 +1,30 @@
 "use client";
 import React, { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
-import { SelectedEpisode } from "@/type";
+
+import {
+  useEpisodeStore,
+  useSeasonStore,
+  useShowDataStore,
+} from "@/store/store";
 
 const SelectAllButtonEpisodes = ({
   name,
-  seasonSelection,
   selectOrDeselect,
-  setShowData,
-  showData,
 }: {
   name: string;
-  seasonSelection: number;
   selectOrDeselect: boolean;
-  showData: {
-    seasonName: string;
-    seasonEpisodes: SelectedEpisode[];
-    seasonStatus: boolean;
-  }[];
-  setShowData: Dispatch<
-    SetStateAction<
-      {
-        seasonName: string;
-        seasonEpisodes: SelectedEpisode[];
-        seasonStatus: boolean;
-      }[]
-    >
-  >;
   /* selectOrDeselect: true, select all episodes for currently selected season, false deselect all episode for currently selected episode */
 }) => {
+  const [showData, setShowData] = useShowDataStore((store) => [
+    store.showData,
+    store.setShowData,
+  ]);
+  const [seasonSelection] = useSeasonStore((store) => [store.seasonSelection]);
+  const [episodeSelection] = useEpisodeStore((store) => [
+    store.episodeSelection,
+  ]);
+
   function selectDeselectAllEpisodes() {
     let output;
     let updatedShowData = [...showData];

@@ -1,7 +1,6 @@
 import SelectedShowDisplay from "@/components/SelectedShowDisplay";
-import { Button } from "@/components/ui/button";
 import { getSingleTVShowData } from "@/lib/getTV";
-import React, { useState } from "react";
+import React from "react";
 
 type Props = {
   params: {

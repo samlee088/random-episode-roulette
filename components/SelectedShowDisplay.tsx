@@ -5,16 +5,14 @@ import ImageDisplay from "./ImageDisplay";
 import DisplaySelectedEpisodeText from "./DisplaySelectedEpisodeText";
 import { SelectedEpisode } from "@/type";
 import SelectAllButtonEpisodes from "./SelectAllButtonEpisodes";
-import generateRandomEpisode from "@/lib/functions";
 
-import { ToastAction } from "@/components/ui/toast";
-import { useToast } from "@/components/ui/use-toast";
 import SelectAllButtonSeasons from "./SelectAllSeasons";
 import {
   useEpisodeStore,
   useSeasonStore,
   useShowDataStore,
 } from "@/store/store";
+import GenerateRandomEpisodeButton from "./GenerateRandomEpisodeButton";
 
 type Props = {
   showDataParent: {
@@ -25,10 +23,6 @@ type Props = {
 };
 
 const SelectedShowDisplay = ({ showDataParent }: Props) => {
-  // const [seasonSelection, setSeasonSelection] = useState(0);
-  // const [episodeSelection, setEpisodeSelection] = useState(0);
-  // const [showData, setShowData] = useState(showDataParent);
-
   const [showData, setShowData] = useShowDataStore((state) => [
     state.showData,
     state.setShowData,
@@ -48,30 +42,12 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
     setShowData(showDataParent);
   }, [showDataParent]);
 
-  const { toast } = useToast();
-  const [showDestructiveToast, setShowDestructiveToast] = useState(false);
-
   const [currentSelectedEpisode, setCurrentSelectedEpisode] = useState<
     SelectedEpisode | undefined
   >(showData?.[seasonSelection]?.seasonEpisodes?.[episodeSelection]);
 
   const [state, updateState] = React.useState({});
   const forceUpdate = React.useCallback(() => updateState({}), []);
-
-  useEffect(() => {
-    if (showDestructiveToast) {
-      toast({
-        variant: "destructive",
-        title: "No Season and No Episode Available",
-        description:
-          "Please go back and select at least one episode for random episode generator",
-        action: <ToastAction altText="Go Back">Close</ToastAction>,
-        className: "bg-red-800",
-      });
-    }
-
-    setShowDestructiveToast(false);
-  }, [showDestructiveToast]);
 
   const changeSeasonSelection = (newSeason: number) => () => {
     if (newSeason != seasonSelection) {
@@ -116,23 +92,7 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
         source={currentSelectedEpisode?.still_path}
         name={currentSelectedEpisode?.episodeTitle}
       />
-      {/* <Button
-        onClick={() =>
-          generateRandomEpisode({
-            showData: showData,
-            setSeasonSelection: setSeasonSelection,
-            setEpisodeSelection: setEpisodeSelection,
-            setCurrentSelectedEpisode: setCurrentSelectedEpisode,
-            seasonSelection: seasonSelection,
-            episodeSelection: episodeSelection,
-            setShowDestructiveToast: setShowDestructiveToast,
-          })
-        }
-        variant="selected"
-        className="mt-10"
-      >
-        Generate Random Episode
-      </Button> */}
+      <GenerateRandomEpisodeButton />
       <DisplaySelectedEpisodeText />
 
       <h1 className="my-10 font-black text-2xl">Seasons</h1>
@@ -175,10 +135,10 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
         ))}
       </div>
       <h1 className="mt-10 font-black text-2xl">Episodes</h1>
-      {/* <div className="my-5">
+      <div className="my-5">
         <SelectAllButtonEpisodes name="Select All" selectOrDeselect={true} />
         <SelectAllButtonEpisodes name="Deselect All" selectOrDeselect={false} />
-      </div> */}
+      </div>
       <div
         className="flex max-w-[80%] "
         style={{

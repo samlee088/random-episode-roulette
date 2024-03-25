@@ -12,6 +12,7 @@ import {
   useShowDataStore,
 } from "@/store/store";
 import GenerateRandomEpisodeButton from "./GenerateRandomEpisodeButton";
+import EpisodeDisplay from "./EpisodeDisplay";
 
 type Props = {
   showDataParent: {
@@ -63,7 +64,6 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
       showData?.[seasonSelection]?.seasonEpisodes?.[episodeNumber];
     if (episode) {
       episode.status = !episode.status;
-      setShowData(showData);
     }
 
     const noEpisodeInSeasonSelected = showData[
@@ -75,7 +75,7 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
     } else {
       showData[seasonSelection].seasonStatus = true;
     }
-
+    setShowData(showData);
     forceUpdate();
   };
 
@@ -133,6 +133,7 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
           </div>
         ))}
       </div>
+      <EpisodeDisplay />
       <h1 className="mt-10 font-black text-2xl">Episodes</h1>
       <div className="my-5">
         <SelectAllButtonEpisodes name="Select All" selectOrDeselect={true} />

@@ -1,3 +1,4 @@
+"use client";
 import {
   useEpisodeStore,
   useSeasonStore,
@@ -5,6 +6,7 @@ import {
 } from "@/store/store";
 import React from "react";
 import { Button } from "./ui/button";
+import SelectAllButtonSeasons from "./SelectAllSeasons";
 
 const SeasonDisplay = () => {
   const [showData, setShowData] = useShowDataStore((state) => [
@@ -58,10 +60,10 @@ const SeasonDisplay = () => {
   return (
     <div className="w-screen flex flex-col justify-center items-center">
       <h1 className="my-10 font-black text-2xl">Seasons</h1>
-      {/* <div className="my-5">
-      <SelectAllButtonSeasons name="Select All" selectOrDeselect={true} />
-      <SelectAllButtonSeasons name="Deselect All" selectOrDeselect={false} />
-    </div> */}
+      <div className="my-5">
+        <SelectAllButtonSeasons name="Select All" selectOrDeselect={true}  />
+        <SelectAllButtonSeasons name="Deselect All" selectOrDeselect={false}  />
+      </div>
       <div
         className="flex max-w-[80%] "
         style={{

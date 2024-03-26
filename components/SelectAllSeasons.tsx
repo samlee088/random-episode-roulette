@@ -2,66 +2,98 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 import { SelectedEpisode } from "@/type";
+import {
+  useEpisodeStore,
+  useSeasonStore,
+  useShowDataStore,
+} from "@/store/store";
 
 const SelectAllButtonSeasons = ({
   name,
-  seasonSelection,
   selectOrDeselect,
-  setShowData,
-  showData,
 }: {
   name: string;
-  seasonSelection: number;
   selectOrDeselect: boolean;
-  showData: {
-    seasonName: string;
-    seasonEpisodes: SelectedEpisode[];
-    seasonStatus: boolean;
-  }[];
-  setShowData: Dispatch<
-    SetStateAction<
-      {
-        seasonName: string;
-        seasonEpisodes: SelectedEpisode[];
-        seasonStatus: boolean;
-      }[]
-    >
-  >;
   /* selectOrDeselect: true, select all episodes for currently selected season, false deselect all episode for currently selected episode */
 }) => {
-  function selectDeselectAllEpisodes() {
-    let output;
+  const [showData, setShowData] = useShowDataStore((state) => [
+    state.showData,
+    state.setShowData,
+  ]);
+  const [seasonSelection, setSeasonSelection] = useSeasonStore((state) => [
+    state.seasonSelection,
+    state.setSeasonSelection,
+  ]);
+  const [episodeSelection, setEpisodeSelection] = useEpisodeStore((state) => [
+    state.episodeSelection,
+    state.setEpisodeSelection,
+  ]);
+
+  const [state, updateState] = React.useState({});
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+
+  const selectAllSeasonsStatusChange = (seasonNumber: number) => () => {
+    const season = showData?.[seasonNumber];
+    let seasonStatus = showData?.[seasonNumber].seasonStatus;
+    if (season) {
+      seasonStatus = !seasonStatus;
+    }
+
+    let updatedData = showData?.[seasonNumber].seasonEpisodes.map((episode) => {
+      let data = { ...episode };
+      if (seasonStatus) {
+        data.status = true;
+      } else {
+        data.status = false;
+      }
+
+      return data;
+    });
+
+    showData[seasonNumber].seasonStatus = seasonStatus;
+    showData[seasonNumber].seasonEpisodes = updatedData;
+    setShowData(showData);
+    forceUpdate();
+  };
+
+  function selectDeselectAllSeasons() {
     let updatedShowData = [...showData];
 
-    if (selectOrDeselect) {
-      output = showData[seasonSelection]?.seasonEpisodes?.map((episode) => {
-        return {
-          ...episode,
-          status: true,
-        };
-      });
-      updatedShowData[seasonSelection].seasonStatus = true;
-    } else {
-      output = showData[seasonSelection]?.seasonEpisodes?.map((episode) => {
-        return {
-          ...episode,
-          status: false,
-        };
-      });
+    for (let i = 0; i < updatedShowData.length; i++) {
+      const season = updatedShowData?.[i];
+      let seasonStatus = season.seasonStatus;
+      if (season) {
+        if (selectOrDeselect) {
+          seasonStatus = true;
+        } else {
+          seasonStatus = false;
+        }
+      }
 
-      updatedShowData[seasonSelection].seasonStatus = false;
-    }
-    if (output) {
-      updatedShowData[seasonSelection].seasonEpisodes = output;
+      let updateEpisodeData = updatedShowData?.[i].seasonEpisodes.map(
+        (episode) => {
+          let data = { ...episode };
+          if (seasonStatus) {
+            data.status = true;
+          } else {
+            data.status = false;
+          }
 
+          return data;
+        }
+      );
+
+      updatedShowData[i].seasonStatus = seasonStatus;
+      updatedShowData[i].seasonEpisodes = updateEpisodeData;
       setShowData(updatedShowData);
+      forceUpdate();
     }
   }
   return (
     <Button
       variant="selected"
       className="mx-2"
-      onClick={selectDeselectAllEpisodes}
+      onClick={selectDeselectAllSeasons}
     >
       {name}
     </Button>

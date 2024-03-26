@@ -8,12 +8,12 @@ import {
 import ImageDisplay from "./ImageDisplay";
 
 type Props = {
-  changeEpisodeSelection: (newEpisode: number) => void;
+
   selectStatusChange: (newEpisode: number) => void;
 };
 
 const EpisodeListView = ({
-  changeEpisodeSelection,
+
   selectStatusChange,
 }: Props) => {
   const [showData] = useShowDataStore((state) => [state.showData]);
@@ -35,6 +35,7 @@ const EpisodeListView = ({
             <div className="ml-3 text-wrap">
               <h1>Season: {showData[seasonSelection]?.seasonName}</h1>
               <h1>Episode: {i + 1}</h1>
+              <h1>Title: {data.episodeTitle}</h1>
 
               <h1 className="text-wrap mt-10">{data.episodeOverview}</h1>
             </div>

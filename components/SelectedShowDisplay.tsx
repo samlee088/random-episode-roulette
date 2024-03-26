@@ -4,8 +4,6 @@ import { Button } from "./ui/button";
 import ImageDisplay from "./ImageDisplay";
 import DisplaySelectedEpisodeText from "./DisplaySelectedEpisodeText";
 import { SelectedEpisode } from "@/type";
-import SelectAllButtonEpisodes from "./SelectAllButtonEpisodes";
-import SelectAllButtonSeasons from "./SelectAllSeasons";
 import {
   useEpisodeStore,
   useSeasonStore,
@@ -13,6 +11,7 @@ import {
 } from "@/store/store";
 import GenerateRandomEpisodeButton from "./GenerateRandomEpisodeButton";
 import EpisodeDisplay from "./EpisodeDisplay";
+import SeasonDisplay from "./SeasonDisplay";
 
 type Props = {
   showDataParent: {
@@ -27,52 +26,14 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
     state.showData,
     state.setShowData,
   ]);
-  const [seasonSelection, setSeasonSelection] = useSeasonStore((state) => [
-    state.seasonSelection,
-    state.setSeasonSelection,
-  ]);
-  const [episodeSelection, setEpisodeSelection] = useEpisodeStore((state) => [
+  const [seasonSelection] = useSeasonStore((state) => [state.seasonSelection]);
+  const [episodeSelection] = useEpisodeStore((state) => [
     state.episodeSelection,
-    state.setEpisodeSelection,
   ]);
 
   useEffect(() => {
     setShowData(showDataParent);
-    setSeasonSelection(0);
-    setEpisodeSelection(0);
   }, [showDataParent]);
-
-  const [state, updateState] = React.useState({});
-  const forceUpdate = React.useCallback(() => updateState({}), []);
-
-  const changeSeasonSelection = (newSeason: number) => () => {
-    if (newSeason != seasonSelection) {
-      setSeasonSelection(newSeason);
-      setEpisodeSelection(0);
-    }
-    forceUpdate();
-  };
-  
-
-  const selectStatusChange = (episodeNumber: number) => () => {
-    const episode =
-      showData?.[seasonSelection]?.seasonEpisodes?.[episodeNumber];
-    if (episode) {
-      episode.status = !episode.status;
-    }
-
-    const noEpisodeInSeasonSelected = showData[
-      seasonSelection
-    ].seasonEpisodes.every((episode) => episode.status === false);
-
-    if (noEpisodeInSeasonSelected) {
-      showData[seasonSelection].seasonStatus = false;
-    } else {
-      showData[seasonSelection].seasonStatus = true;
-    }
-    setShowData(showData);
-    forceUpdate();
-  };
 
   return (
     <div className="flex justify-center items-center flex-col mt-12">
@@ -88,46 +49,8 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
       />
       <GenerateRandomEpisodeButton />
       <DisplaySelectedEpisodeText />
+      <SeasonDisplay />
 
-      <h1 className="my-10 font-black text-2xl">Seasons</h1>
-      {/* <div className="my-5">
-        <SelectAllButtonSeasons name="Select All" selectOrDeselect={true} />
-        <SelectAllButtonSeasons name="Deselect All" selectOrDeselect={false} />
-      </div> */}
-      <div
-        className="flex max-w-[80%] "
-        style={{
-          display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fit, minmax(min(140px, 100%), 1fr))",
-          rowGap: "5px",
-          justifyItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {showData.map((data, i) => (
-          <div key={i} className="mx-20 flex flex-col mb-6">
-            <Button
-              key={i}
-              variant={i === seasonSelection ? "selected" : "secondary"}
-              onClick={changeSeasonSelection(i)}
-              className="mb-4"
-            >
-              {data?.seasonName}
-            </Button>
-            <Button
-              variant={
-                showData?.[seasonSelection]?.seasonEpisodes?.[i]?.status
-                  ? "selected"
-                  : "secondary"
-              }
-              onClick={selectStatusChange(i)}
-            >
-              Y
-            </Button>
-          </div>
-        ))}
-      </div>
       <EpisodeDisplay />
     </div>
   );

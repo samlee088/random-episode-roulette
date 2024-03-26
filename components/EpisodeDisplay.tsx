@@ -16,10 +16,7 @@ const EpisodeDisplay = () => {
     state.showData,
     state.setShowData,
   ]);
-  const [seasonSelection, setSeasonSelection] = useSeasonStore((state) => [
-    state.seasonSelection,
-    state.setSeasonSelection,
-  ]);
+  const [seasonSelection] = useSeasonStore((state) => [state.seasonSelection]);
   const [episodeSelection, setEpisodeSelection] = useEpisodeStore((state) => [
     state.episodeSelection,
     state.setEpisodeSelection,
@@ -75,8 +72,7 @@ const EpisodeDisplay = () => {
             selectStatusChange={selectStatusChange}
           />
         ) : (
-          <EpisodeListView  changeEpisodeSelection={changeEpisodeSelection}
-          selectStatusChange={selectStatusChange}/>
+          <EpisodeListView selectStatusChange={selectStatusChange} />
         )}
       </div>
     </div>

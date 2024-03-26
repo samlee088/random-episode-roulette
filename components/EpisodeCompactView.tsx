@@ -7,25 +7,18 @@ import React from "react";
 import { Button } from "./ui/button";
 
 type Props = {
-  changeEpisodeSelection: (id: number) => void;
-  selectStatusChange: (id: number) => void;
+  changeEpisodeSelection: (newEpisode: number) => void;
+  selectStatusChange: (newEpisode: number) => void;
 };
 
 const EpisodeCompactView = ({
   changeEpisodeSelection,
   selectStatusChange,
 }: Props) => {
-  const [showData, setShowData] = useShowDataStore((state) => [
-    state.showData,
-    state.setShowData,
-  ]);
-  const [seasonSelection, setSeasonSelection] = useSeasonStore((state) => [
-    state.seasonSelection,
-    state.setSeasonSelection,
-  ]);
-  const [episodeSelection, setEpisodeSelection] = useEpisodeStore((state) => [
+  const [showData] = useShowDataStore((state) => [state.showData]);
+  const [seasonSelection] = useSeasonStore((state) => [state.seasonSelection]);
+  const [episodeSelection] = useEpisodeStore((state) => [
     state.episodeSelection,
-    state.setEpisodeSelection,
   ]);
 
   return (

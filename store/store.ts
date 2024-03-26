@@ -42,3 +42,14 @@ export const useEpisodeStore = create<EpisodeSelection>()((set, get) => ({
   setEpisodeSelection: (episodeSelection) =>
     set({ episodeSelection: episodeSelection }),
 }));
+
+interface RadioSelection {
+  radioSelection: string;
+  setRadioSelection: (updatedRadioSelection: string) => void;
+}
+
+export const useRadioSelection = create<RadioSelection>()((set, get) => ({
+  radioSelection: "compact",
+  setRadioSelection: (updatedRadioSelection) =>
+    set({ radioSelection: updatedRadioSelection }),
+}));

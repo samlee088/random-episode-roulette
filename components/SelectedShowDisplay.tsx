@@ -52,12 +52,7 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
     }
     forceUpdate();
   };
-  const changeEpisodeSelection = (newEpisode: number) => () => {
-    if (newEpisode != episodeSelection) {
-      setEpisodeSelection(newEpisode);
-    }
-    forceUpdate();
-  };
+  
 
   const selectStatusChange = (episodeNumber: number) => () => {
     const episode =
@@ -134,44 +129,6 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
         ))}
       </div>
       <EpisodeDisplay />
-      <h1 className="mt-10 font-black text-2xl">Episodes</h1>
-      <div className="my-5">
-        <SelectAllButtonEpisodes name="Select All" selectOrDeselect={true} />
-        <SelectAllButtonEpisodes name="Deselect All" selectOrDeselect={false} />
-      </div>
-      <div
-        className="flex max-w-[80%] "
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(70px, 100%), 1fr))",
-          rowGap: "36px",
-          justifyItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {showData[seasonSelection]?.seasonEpisodes?.map((data, i) => (
-          <div key={i} className="mx-4 flex flex-col mb-6">
-            <Button
-              key={i}
-              variant={i === episodeSelection ? "selected" : "secondary"}
-              onClick={changeEpisodeSelection(i)}
-              className="mb-4"
-            >
-              {i + 1}
-            </Button>
-            <Button
-              variant={
-                showData?.[seasonSelection]?.seasonEpisodes?.[i].status
-                  ? "selected"
-                  : "secondary"
-              }
-              onClick={selectStatusChange(i)}
-            >
-              Y
-            </Button>
-          </div>
-        ))}
-      </div>
     </div>
   );
 };

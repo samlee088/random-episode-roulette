@@ -61,15 +61,14 @@ const SeasonDisplay = () => {
     <div className="w-screen flex flex-col justify-center items-center">
       <h1 className="my-10 font-black text-2xl">Seasons</h1>
       <div className="my-5">
-        <SelectAllButtonSeasons name="Select All" selectOrDeselect={true}  />
-        <SelectAllButtonSeasons name="Deselect All" selectOrDeselect={false}  />
+        <SelectAllButtonSeasons name="Select All" selectOrDeselect={true} />
+        <SelectAllButtonSeasons name="Deselect All" selectOrDeselect={false} />
       </div>
       <div
         className="flex max-w-[80%] "
         style={{
           display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fit, minmax(min(140px, 100%), 1fr))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(200px, fit-content)",
           rowGap: "5px",
           justifyItems: "center",
           justifyContent: "center",

@@ -68,7 +68,8 @@ const SeasonDisplay = () => {
         className="flex max-w-[80%] "
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, fit-content)",
+          gridTemplateColumns:
+            "repeat(auto-fit, minmax(min(200px, 100%), 1fr))",
           rowGap: "5px",
           justifyItems: "center",
           justifyContent: "center",

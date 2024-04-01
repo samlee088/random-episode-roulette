@@ -2,13 +2,11 @@
 
 import React from "react";
 import { Button } from "./ui/button";
-import { MinusIcon, PlusIcon, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useShowDataStore } from "@/store/store";
 
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -21,10 +19,6 @@ import SaveAs from "./SaveAs";
 const SavePreferences = () => {
   const pathName = usePathname();
   const isSelectedPage = pathName.includes("/selectedShow");
-  const [showData, setShowData] = useShowDataStore((state) => [
-    state.showData,
-    state.setShowData,
-  ]);
 
   async function saveCurrentPreferences() {}
   return (
@@ -50,10 +44,7 @@ const SavePreferences = () => {
                     <SaveAs />
                   </div>
                 </div>
-                <DrawerFooter>
-                 
-                 
-                </DrawerFooter>
+                <DrawerFooter></DrawerFooter>
               </div>
             </DrawerContent>
           </Drawer>

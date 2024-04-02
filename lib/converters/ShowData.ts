@@ -1,4 +1,6 @@
 import { db } from "@/firebase";
+import { SelectedEpisode } from "@/type";
+
 import {
   DocumentData,
   FirestoreDataConverter,
@@ -7,42 +9,47 @@ import {
   collection,
   collectionGroup,
   doc,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
 
-interface SettingsOwner {
-  userId: string;
-  email: string;
-  timestamp: Date | null;
-  preferencesId: string;
+interface ShowData {
+  id?: string;
+  showData: {
+    seasonName: string;
+    seasonEpisodes: SelectedEpisode[];
+    seasonStatus: boolean;
+  }[];
 }
 
-const settingsOwnerConverter: FirestoreDataConverter<SettingsOwner> = {
-  toFirestore: function (owner: SettingsOwner): DocumentData {
+const showDataSettingsConverter: FirestoreDataConverter<ShowData> = {
+  toFirestore: function (showData: ShowData): DocumentData {
     return {
-      userId: owner.userId,
-      email: owner.email,
-      timestamp: owner.timestamp,
-      preferencesId: owner.preferencesId,
+      showData: showData.showData,
     };
   },
   fromFirestore: function (
     snapshot: QueryDocumentSnapshot,
     options: SnapshotOptions
-  ): SettingsOwner {
+  ): ShowData {
     const data = snapshot.data(options);
 
     return {
-      userId: snapshot.id,
-      email: data.email,
-      timestamp: data.timestamp,
-      preferencesId: data.preferencesId,
+      id: snapshot.id,
+      showData: data.showData,
     };
   },
 };
 
-export const addPreferencesRef = (preferencesId: string, userId: string) =>
-  doc(db, "preferences", preferencesId, "owner", userId).withConverter(
-    settingsOwnerConverter
+export const showDataRef = (preferencesId: string) =>
+  collection(db, "preferences", preferencesId, "showData").withConverter(
+    showDataSettingsConverter
   );
+
+export const showFavoritesSavedRef = (userId: string) =>
+  query(
+    collectionGroup(db, "owner"),
+    where("userId", "==", userId),
+    orderBy("timestamp", "asc")
+  ).withConverter(showDataSettingsConverter);

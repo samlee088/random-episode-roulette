@@ -22,8 +22,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { DrawerClose } from "./ui/drawer";
 import { useShowDataStore } from "@/store/store";
-import { serverTimestamp, setDoc } from "firebase/firestore";
-import { addPreferencesRef } from "@/lib/converters/ShowData";
+import { addDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import { addPreferencesRef } from "@/lib/converters/Preferences";
+import { showDataRef } from "@/lib/converters/ShowData";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -85,9 +86,16 @@ const SaveAs = () => {
           action: <ToastAction altText="Go Back">Close</ToastAction>,
           className: "bg-red-800",
         });
-      })
-      .finally(() => {
+      });
+
+    await addDoc(showDataRef(preferencesId), {
+      showData: showData,
+    })
+      .then(() => {
         setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
       });
 
     form.reset();

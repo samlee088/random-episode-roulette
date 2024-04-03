@@ -43,7 +43,37 @@ const settingsOwnerConverter: FirestoreDataConverter<SettingsOwner> = {
   },
 };
 
+export interface PreferencesTitle {
+  preferencesTitle: string;
+}
+
+const preferencesTitleConverter: FirestoreDataConverter<PreferencesTitle> = {
+  toFirestore: function (title: PreferencesTitle): DocumentData {
+    return {
+      preferencesTitle: title.preferencesTitle,
+    };
+  },
+  fromFirestore: function (
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): PreferencesTitle {
+    const data = snapshot.data(options);
+
+    return {
+      preferencesTitle: data.preferencesTitle,
+    };
+  },
+};
+
 export const addPreferencesRef = (preferencesId: string, userId: string) =>
   doc(db, "preferences", preferencesId, "owner", userId).withConverter(
     settingsOwnerConverter
   );
+
+export const addPreferencesTitleRef = (preferencesId: string) =>
+  collection(db, "preferences", preferencesId, "title").withConverter(
+    preferencesTitleConverter
+  );
+
+export const grabFavoriteTitleRef = (preferencesId: string) =>
+  query(addPreferencesTitleRef(preferencesId));

@@ -90,3 +90,6 @@ export type TVShowSeasonData = {
   seasonStatus: boolean;
 };
 
+export type FavoriteTitle = {
+  favoritesTitle: string;
+};

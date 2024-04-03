@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import React from "react";
+import FavoritesCardDisplay from "@/components/FavoritesCardDisplay";
 
 async function FavoritesPage() {
   const session = await getServerSession(authOptions);
@@ -14,13 +15,12 @@ async function FavoritesPage() {
     showFavoritesSavedRef(session?.user.id)
   );
 
-  const initialFavorites = userFavoritesData.docs.map((doc) => ({
+  const favoritesList = userFavoritesData.docs.map((doc) => ({
     ...doc.data(),
-    timestamp: null,
   }));
 
-  console.log(userFavoritesData);
-  return <div></div>;
+  console.log(favoritesList);
+  return <FavoritesCardDisplay favoritesData={favoritesList} />;
 }
 
 export default FavoritesPage;

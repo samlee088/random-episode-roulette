@@ -23,7 +23,10 @@ import { Input } from "@/components/ui/input";
 import { DrawerClose } from "./ui/drawer";
 import { useShowDataStore } from "@/store/store";
 import { addDoc, serverTimestamp, setDoc } from "firebase/firestore";
-import { addPreferencesRef } from "@/lib/converters/Preferences";
+import {
+  addPreferencesRef,
+  addPreferencesTitleRef,
+} from "@/lib/converters/Preferences";
 import { showDataRef } from "@/lib/converters/ShowData";
 
 const formSchema = z.object({
@@ -61,11 +64,45 @@ const SaveAs = () => {
 
     const preferencesId = uuidv4();
 
+    setLoading(true);
+
     await setDoc(addPreferencesRef(preferencesId, session.user.id), {
       userId: session.user.id!,
       email: session.user.email!,
       timestamp: serverTimestamp(),
       preferencesId: preferencesId,
+    }).catch((error) => {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Save Unsuccessful",
+        description:
+          "Unable to save current season selections and episode selections to user's account",
+        action: <ToastAction altText="Go Back">Close</ToastAction>,
+        className: "bg-red-800",
+      });
+      form.reset();
+      return;
+    });
+
+    await addDoc(addPreferencesTitleRef(preferencesId), {
+      preferencesTitle: data.saveAsTitle,
+    }).catch((error) => {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Save Unsuccessful",
+        description: "Unable to save title to preferences",
+        action: <ToastAction altText="Go Back">Close</ToastAction>,
+        className: "bg-red-800",
+      });
+      setLoading(false);
+      form.reset();
+      return;
+    });
+
+    await addDoc(showDataRef(preferencesId), {
+      showData: showData,
     })
       .then(() => {
         toast({
@@ -75,38 +112,22 @@ const SaveAs = () => {
             "Current season selections and episode selections were added to user's account",
           action: <ToastAction altText="Go Back">Close</ToastAction>,
         });
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
         toast({
           variant: "destructive",
           title: "Save Unsuccessful",
-          description:
-            "Unable to save current season selections and episode selections to user's account",
+          description: "Unable to save data preferences to account",
           action: <ToastAction altText="Go Back">Close</ToastAction>,
           className: "bg-red-800",
         });
       });
 
-    await addDoc(showDataRef(preferencesId), {
-      showData: showData,
-    })
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
+    setLoading(false);
     form.reset();
   };
-
-  // function onSubmit(data: z.infer<typeof FormSchema>) {
-  //   console.log(`${data.saveAsTitle}`);
-  //   // createSavePreferences
-
-  //   form.reset();
-  // }
 
   return (
     <div>

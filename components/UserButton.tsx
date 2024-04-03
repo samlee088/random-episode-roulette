@@ -20,7 +20,7 @@ function UserButton({ session }: { session: Session | null }) {
         Sign In
       </Button>
     );
-  //Session
+ 
   return (
     session && (
       <DropdownMenu>

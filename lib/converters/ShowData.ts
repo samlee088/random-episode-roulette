@@ -52,4 +52,4 @@ export const showFavoritesSavedRef = (userId: string) =>
     collectionGroup(db, "owner"),
     where("userId", "==", userId),
     orderBy("timestamp", "asc")
-  ).withConverter(showDataSettingsConverter);
+  );

@@ -28,6 +28,7 @@ import {
   addPreferencesTitleRef,
 } from "@/lib/converters/Preferences";
 import { showDataRef } from "@/lib/converters/ShowData";
+import { usePathname } from "next/navigation";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -43,7 +44,10 @@ const SaveAs = () => {
   ]);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-
+  const pathname = usePathname();
+  let parsedPathname = pathname.split('/')
+  let selectedShowId = parsedPathname[parsedPathname.length-1]
+  
   const FormSchema = z.object({
     saveAsTitle: z.string().min(1, {
       message: "Username must be at least 2 characters.",
@@ -87,6 +91,7 @@ const SaveAs = () => {
 
     await addDoc(addPreferencesTitleRef(preferencesId), {
       preferencesTitle: data.saveAsTitle,
+      showId: selectedShowId
     }).catch((error) => {
       console.error(error);
       toast({

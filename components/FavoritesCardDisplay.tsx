@@ -19,7 +19,8 @@ const FavoritesCardDisplay = ({
     {
       initialValue: favoritesData,
     }
-  );
+  );d
+
   return (
     <div>
       {favorites?.map((favorite) => (

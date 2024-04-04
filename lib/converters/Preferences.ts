@@ -45,12 +45,14 @@ const settingsOwnerConverter: FirestoreDataConverter<SettingsOwner> = {
 
 export interface PreferencesTitle {
   preferencesTitle: string;
+  showId: string;
 }
 
 const preferencesTitleConverter: FirestoreDataConverter<PreferencesTitle> = {
   toFirestore: function (title: PreferencesTitle): DocumentData {
     return {
       preferencesTitle: title.preferencesTitle,
+      showId: title.showId,
     };
   },
   fromFirestore: function (
@@ -61,6 +63,7 @@ const preferencesTitleConverter: FirestoreDataConverter<PreferencesTitle> = {
 
     return {
       preferencesTitle: data.preferencesTitle,
+      showId: data.showId,
     };
   },
 };

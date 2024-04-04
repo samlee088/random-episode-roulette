@@ -33,6 +33,19 @@ export async function getPopularTVShows() {
   return data.results;
 }
 
+export async function getSingularTVShowSummary({
+  series_id,
+}: {
+  series_id: number;
+}) {
+  const data = await fetchFromTMDBSingleSeason(
+    new URL(`https://api.themoviedb.org/3/tv/${series_id}`)
+  );
+
+  let { backdrop_path, name } = data;
+  return { backdrop_path, name };
+}
+
 async function fetchFromTMDBSingleSeason(url: URL, cacheTime?: number) {
   const options: RequestInit = {
     method: "GET",

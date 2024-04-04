@@ -45,9 +45,9 @@ const SaveAs = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const pathname = usePathname();
-  let parsedPathname = pathname.split('/')
-  let selectedShowId = parsedPathname[parsedPathname.length-1]
-  
+  let parsedPathname = pathname.split("/");
+  let selectedShowId = parsedPathname[parsedPathname.length - 1];
+
   const FormSchema = z.object({
     saveAsTitle: z.string().min(1, {
       message: "Username must be at least 2 characters.",
@@ -91,7 +91,7 @@ const SaveAs = () => {
 
     await addDoc(addPreferencesTitleRef(preferencesId), {
       preferencesTitle: data.saveAsTitle,
-      showId: selectedShowId
+      showId: selectedShowId,
     }).catch((error) => {
       console.error(error);
       toast({

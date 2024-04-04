@@ -3,12 +3,6 @@ import { getDocs } from "firebase/firestore";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import React from "react";
-import FavoritesCardDisplay from "@/components/FavoritesCardDisplay";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import {
-  PreferencesTitle,
-  grabFavoriteTitleRef,
-} from "@/lib/converters/Preferences";
 import FavoritesExtractShowData from "@/components/FavoritesExtractShowData";
 
 async function FavoritesPage() {
@@ -24,8 +18,6 @@ async function FavoritesPage() {
     preferencesId: doc.data().preferencesId,
   }));
 
-  
-
   return (
     <div>
       {favoritesList.map((favorite) => (
@@ -36,8 +28,6 @@ async function FavoritesPage() {
       ))}
     </div>
   );
-  // return <FavoritesExtractShowData favoritesData={favoritesList} />;
-  // return <FavoritesCardDisplay favoritesData={favoritesList} />;
 }
 
 export default FavoritesPage;

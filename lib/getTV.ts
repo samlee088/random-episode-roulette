@@ -7,8 +7,7 @@ import {
 } from "@/type";
 
 async function fetchFromTMDBMultiple(url: URL, cacheTime?: number) {
-  // url.searchParams.set("page", "1");
-
+ 
   const options: RequestInit = {
     method: "GET",
     headers: {
@@ -56,7 +55,6 @@ async function fetchFromTMDBSingleSeason(url: URL, cacheTime?: number) {
   };
 
   const request = await fetch(url.toString(), options);
-  //   const data = (await request.json()) as SingleMovie;
   const data = await request.json();
   return data;
 }

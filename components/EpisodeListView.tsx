@@ -8,19 +8,12 @@ import {
 import ImageDisplay from "./ImageDisplay";
 
 type Props = {
-
   selectStatusChange: (newEpisode: number) => void;
 };
 
-const EpisodeListView = ({
-
-  selectStatusChange,
-}: Props) => {
+const EpisodeListView = ({ selectStatusChange }: Props) => {
   const [showData] = useShowDataStore((state) => [state.showData]);
   const [seasonSelection] = useSeasonStore((state) => [state.seasonSelection]);
-  const [episodeSelection] = useEpisodeStore((state) => [
-    state.episodeSelection,
-  ]);
 
   return (
     <div className="mt-20 w-screen flex flex-col ">

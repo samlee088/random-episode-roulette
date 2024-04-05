@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import UserButton from "./UserButton";
 import SavePreferences from "./SavePreferences";
+import HeaderFavoritesLink from "./HeaderFavoritesLink";
 
 async function Header() {
   const session = await getServerSession(authOptions);
@@ -34,12 +35,7 @@ async function Header() {
           {session ? (
             <>
               <SavePreferences />
-              <Link href={"/favorites"} prefetch={false}>
-                <div className="flex items-center justify-center space-x-1">
-                  <Heart />
-                  <div>Favorites</div>
-                </div>
-              </Link>
+              <HeaderFavoritesLink />
             </>
           ) : (
             ""

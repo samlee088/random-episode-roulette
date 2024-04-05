@@ -17,6 +17,7 @@ async function FavoritesPage() {
   const favoritesList = userFavoritesData.docs.map((doc) => ({
     preferencesId: doc.data().preferencesId,
   }));
+  
 
   return (
     <div>

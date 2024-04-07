@@ -5,6 +5,7 @@ import FavoritesCard from "./FavoritesCard";
 type Props = {
   preferencesTitle: string;
   showId: string;
+  preferencesId: string;
 };
 async function FavoritesShowExtractApi({ data }: { data: Props }) {
   let apiCall = await getSingularTVShowSummary({
@@ -16,6 +17,7 @@ async function FavoritesShowExtractApi({ data }: { data: Props }) {
       <FavoritesCard
         preferencesTitle={data.preferencesTitle}
         favoritesShowData={apiCall}
+        preferencesId={data.preferencesId}
       />
     </div>
   );

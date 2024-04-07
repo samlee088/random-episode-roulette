@@ -9,13 +9,13 @@ interface Props {
 
 async function FavoritesExtractShowData({ preferencesId }: Props) {
   let data = (await getDocs(grabFavoriteTitleRef(preferencesId))).docs.map(
-    (doc) => doc.data()
+    (doc) => ({ ...doc.data(), preferencesId: preferencesId })
   );
 
   return (
     <div>
       {data.map((data) => (
-        <div key={data.preferencesTitle}>
+        <div key={data.preferencesId}>
           <FavoritesShowExtractApi data={data} />
         </div>
       ))}

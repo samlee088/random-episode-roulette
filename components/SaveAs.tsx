@@ -62,8 +62,6 @@ const SaveAs = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log(`${data.saveAsTitle}`);
-
     if (!session?.user.id) return;
 
     const preferencesId = uuidv4();

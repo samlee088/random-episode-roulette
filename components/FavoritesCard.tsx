@@ -9,8 +9,13 @@ type Props = {
     backdrop_path: string;
     name: string;
   };
+  preferencesId: string;
 };
-const FavoritesCard = ({ preferencesTitle, favoritesShowData }: Props) => {
+const FavoritesCard = ({
+  preferencesTitle,
+  favoritesShowData,
+  preferencesId,
+}: Props) => {
   return (
     <div className="flex position: relative my-auto ml-10 justify-start w-11/12 border-t-2 ">
       <div className="flex mt-2 ">
@@ -25,7 +30,7 @@ const FavoritesCard = ({ preferencesTitle, favoritesShowData }: Props) => {
       </div>
       <div className="position: absolute right-20 mt-2 ">
         <div className=" position: absolute r-0">
-          <FavoritesCardDeleteButton />
+          <FavoritesCardDeleteButton preferencesId={preferencesId} />
         </div>
       </div>
     </div>

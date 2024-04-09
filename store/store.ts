@@ -53,3 +53,14 @@ export const useRadioSelection = create<RadioSelection>()((set, get) => ({
   setRadioSelection: (updatedRadioSelection) =>
     set({ radioSelection: updatedRadioSelection }),
 }));
+
+interface FavoritesSelection {
+  selectedFavoriteStatus: boolean;
+  setSelectedFavoriteStatus: (updatedSelectedFavorite: boolean) => void;
+}
+
+export const useSelectedFavoriteStatus = create<FavoritesSelection>()((set, get) => ({
+  selectedFavoriteStatus: false,
+  setSelectedFavoriteStatus: (updatedSelectedFavoriteStatus) =>
+    set({ selectedFavoriteStatus: updatedSelectedFavoriteStatus }),
+}));

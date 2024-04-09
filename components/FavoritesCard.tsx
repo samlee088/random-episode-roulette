@@ -2,6 +2,7 @@
 import React from "react";
 import ImageDisplay from "./ImageDisplay";
 import FavoritesCardDeleteButton from "./FavoritesCardDeleteButton";
+import { useSelectedFavoriteStatus } from "@/store/store";
 
 type Props = {
   preferencesTitle: string;
@@ -16,6 +17,15 @@ const FavoritesCard = ({
   favoritesShowData,
   preferencesId,
 }: Props) => {
+  const [selectedFavoriteStatus, setSelectedFavoriteStatus] =
+    useSelectedFavoriteStatus((store) => [
+      store.selectedFavoriteStatus,
+      store.setSelectedFavoriteStatus,
+    ]);
+
+    async function uploadSelectedFavoritePreferences() {
+      
+    }
   return (
     <div className="flex position: relative my-auto ml-10 justify-start w-11/12 border-t-2 ">
       <div className="flex mt-2 ">
@@ -29,7 +39,7 @@ const FavoritesCard = ({
         </div>
       </div>
       <div className="position: absolute right-20 mt-2 ">
-        <div className=" position: absolute r-0">
+        <div className=" position: absolute r-0 z-50">
           <FavoritesCardDeleteButton preferencesId={preferencesId} />
         </div>
       </div>

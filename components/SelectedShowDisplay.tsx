@@ -34,7 +34,6 @@ const SelectedShowDisplay = ({ showDataParent }: Props) => {
     setShowData(showDataParent);
   }, [showDataParent, setShowData]);
 
-  console.log(showData);
 
   return (
     <div className="flex justify-center items-center flex-col mt-12">

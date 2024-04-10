@@ -18,6 +18,7 @@ async function FavoritesShowExtractApi({ data }: { data: Props }) {
         preferencesTitle={data.preferencesTitle}
         favoritesShowData={apiCall}
         preferencesId={data.preferencesId}
+        showId={data.showId}
       />
     </div>
   );

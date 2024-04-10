@@ -23,6 +23,7 @@ interface ShowData {
   }[];
 }
 
+
 const showDataSettingsConverter: FirestoreDataConverter<ShowData> = {
   toFirestore: function (showData: ShowData): DocumentData {
     return {

@@ -1,7 +1,7 @@
 import { SelectedEpisode } from "@/type";
 import { create } from "zustand";
 
-interface ShowData {
+export interface ShowData {
   showData: {
     seasonName: string;
     seasonEpisodes: SelectedEpisode[];
@@ -59,8 +59,10 @@ interface FavoritesSelection {
   setSelectedFavoriteStatus: (updatedSelectedFavorite: boolean) => void;
 }
 
-export const useSelectedFavoriteStatus = create<FavoritesSelection>()((set, get) => ({
-  selectedFavoriteStatus: false,
-  setSelectedFavoriteStatus: (updatedSelectedFavoriteStatus) =>
-    set({ selectedFavoriteStatus: updatedSelectedFavoriteStatus }),
-}));
+export const useSelectedFavoriteStatus = create<FavoritesSelection>()(
+  (set, get) => ({
+    selectedFavoriteStatus: false,
+    setSelectedFavoriteStatus: (updatedSelectedFavoriteStatus) =>
+      set({ selectedFavoriteStatus: updatedSelectedFavoriteStatus }),
+  })
+);

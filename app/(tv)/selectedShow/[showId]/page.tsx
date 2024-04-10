@@ -2,7 +2,7 @@
 import SelectedShowDisplay from "@/components/SelectedShowDisplay";
 import { getSingleTVShowData } from "@/lib/getTV";
 import retrieveData from "@/lib/retrieveData";
-import { useSelectedFavoriteStatus } from "@/store/store";
+import { useSelectedFavoriteStatus, useShowDataStore } from "@/store/store";
 import { SelectedEpisode } from "@/type";
 import React, { useEffect, useState } from "react";
 import { useMemo } from "react";
@@ -20,6 +20,11 @@ function SelectedShow({ params: { showId } }: Props) {
       store.setSelectedFavoriteStatus,
     ]);
 
+  const [showData, setShowData] = useShowDataStore((state) => [
+    state.showData,
+    state.setShowData,
+  ]);
+
   const [singleShowSeasonsEpisodesData, setSingleShowSeasonsEpisodesData] =
     useState<
       {
@@ -35,6 +40,8 @@ function SelectedShow({ params: { showId } }: Props) {
 
   async function renderPage() {
     if (selectedFavoriteStatus) {
+      setSingleShowSeasonsEpisodesData(showData);
+      setSelectedFavoriteStatus(false);
     } else {
       const data = await retrieveData({ showId: showId });
       setSingleShowSeasonsEpisodesData(data);

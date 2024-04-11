@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# random episode roulette
 
-## Getting Started
+  ## Description
 
-First, run the development server:
+  This is a project was created with Nextjs, Firebase, Authjs, Zustand, and deployed with Vercel. The application was inspired by the moments when I wanted to watch a random episode of a tv show, but I wanted the episode to be from a particular set of seasons. This lead me to create random episode roulette.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  ## Table of Contents
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [License](#license)
+  - [Contributing](#contributing)
+  - [Tests](#tests)
+  - [Questions](#questions)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+  ## Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+A deployed version of the application can be found here:
+https://bit.ly/randomEpisodeRoulette
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  ## Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+  Please note that a user does not have to login with a google account to use the application. However, this is required is the user would like to save a certain set of settings.
 
-## Deploy on Vercel
+  -A user will search for a particular television show in the search bar, or selected a popular one.
+  -When the user has selected a tv show, they can start to generate a random episode from that show.
+  -During the selection page of a tv show, a user can select/unselect full seasons, or particular episodes from a season that will be considered during the random episode generator.
+  -A signed in user can save a certain set of selections to their account for future use.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  ![A deployed version of the application's homepage](/public/random-episode-generator-homepage.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+  ## Contributing
+    NA
+  ## Tests
+    NA
+  ## Questions
+
+  Please reach me with any of the following:
+  github.com/https://github.com/samlee088/random-episode-roulette
+  sam.lee088@hotmail.com
+
+  ## License
+
+  WTFPL
+  [WTFPL License](http://www.wtfpl.net/about/)
+
+

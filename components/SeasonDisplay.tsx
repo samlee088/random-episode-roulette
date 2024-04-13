@@ -65,7 +65,7 @@ const SeasonDisplay = () => {
         <SelectAllButtonSeasons name="Deselect All" selectOrDeselect={false} />
       </div>
       <div
-        className="flex max-w-[80%] "
+        className="flex max-w-[80%]"
         style={{
           display: "grid",
           gridTemplateColumns:
@@ -81,7 +81,7 @@ const SeasonDisplay = () => {
               key={i}
               variant={i === seasonSelection ? "selected" : "secondary"}
               onClick={changeSeasonSelection(i)}
-              className="mb-4"
+              className="w-full h-auto flex items-center justify-center whitespace-break-spaces text-center overflow-visible text-ellipsis mb-4"
             >
               {data?.seasonName}
             </Button>

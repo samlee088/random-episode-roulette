@@ -34,7 +34,6 @@ export function SearchBar() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-   
     router.push(`/search/${data.searchInput}`);
     form.reset();
   }
@@ -51,7 +50,7 @@ export function SearchBar() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Search..." {...field} />
+                <Input placeholder="TV Show Name..." {...field} />
               </FormControl>
 
               <FormMessage />
@@ -59,7 +58,7 @@ export function SearchBar() {
           )}
         />
         <Button type="submit" className="items-center">
-          Submit
+          Search
         </Button>
       </form>
     </Form>

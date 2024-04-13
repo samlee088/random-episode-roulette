@@ -34,7 +34,10 @@ const FavoritesCard = ({
       <div className="position: absolute right-20 mt-2">
         <div className="flex justify-between">
           <div className="mx-4">
-            <FavoritesCardUploadButton preferencesId={preferencesId} showId={showId} />
+            <FavoritesCardUploadButton
+              preferencesId={preferencesId}
+              showId={showId}
+            />
           </div>
           <div className="r-0">
             <FavoritesCardDeleteButton preferencesId={preferencesId} />

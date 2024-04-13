@@ -16,7 +16,7 @@ This is a project was created with Nextjs, Firebase, Authjs, Zustand, and deploy
 ## Installation
 
 A deployed version of the application can be found here:
-https://bit.ly/randomEpisodeRoulette
+https://bit.ly/randomEpisodeRouletteLive
 
 ## Usage
 

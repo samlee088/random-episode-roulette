@@ -143,19 +143,28 @@ const SaveAs = () => {
               <FormItem>
                 <FormLabel>Save As</FormLabel>
                 <FormControl>
-                  <Input placeholder="Save As..." {...field} />
+                  <Input
+                    placeholder="ie the simpsons glory seasons..."
+                    {...field}
+                  />
                 </FormControl>
-                <FormDescription>Please enter a title</FormDescription>
+                <FormDescription>
+                  Please enter a title to describe these selections
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <DrawerClose asChild>
-            <Button type="submit">Submit</Button>
-          </DrawerClose>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
+          <div className="flex justify-evenly">
+            <DrawerClose asChild>
+              <Button variant="outline" type="submit">
+                Save
+              </Button>
+            </DrawerClose>
+            <DrawerClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DrawerClose>
+          </div>
         </form>
       </Form>
     </div>

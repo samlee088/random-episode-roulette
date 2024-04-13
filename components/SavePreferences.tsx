@@ -31,18 +31,18 @@ const SavePreferences = () => {
                 <Star className="mr-1" /> Save
               </Button>
             </DrawerTrigger>
-            <DrawerContent className="bg-stone-950 text-inherit">
+            <DrawerContent className="bg-stone-950 text-inherit flex justify-center items-center text-center">
               <div className="mx-auto w-full max-w-sm min-h-96">
-                <DrawerHeader>
-                  <DrawerTitle>Save</DrawerTitle>
+                <DrawerHeader className="flex flex-col justify-center items-center ">
+                  <DrawerTitle>Add Selection</DrawerTitle>
                   <DrawerDescription>
-                    Save the current Seasons and Episode Selected
+                    <span className="text-center flex">
+                      Save the currently selected Season(s) and Episode(s)
+                    </span>
                   </DrawerDescription>
                 </DrawerHeader>
                 <div className="p-4 pb-0">
-                  <div className="flex items-center justify-center space-x-2">
-                    <SaveAs />
-                  </div>
+                  <SaveAs />
                 </div>
                 <DrawerFooter></DrawerFooter>
               </div>
